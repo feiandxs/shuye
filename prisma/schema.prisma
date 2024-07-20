@@ -1,0 +1,36 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id                      String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  username                String    @unique @db.VarChar(50)
+  passwordHash            String    @map("password_hash") @db.VarChar(255)
+  email                   String?   @db.VarChar(255)
+  createdAt               DateTime  @default(now()) @map("created_at")
+  updatedAt               DateTime  @default(now()) @updatedAt @map("updated_at")
+  isActive                Boolean   @default(true) @map("is_active")
+  role                    String?   @db.VarChar(50)
+  lastLogin               DateTime? @map("last_login")
+  failedLoginAttempts     Int       @default(0) @map("failed_login_attempts")
+  accountLocked           Boolean   @default(false) @map("account_locked")
+  passwordChangeRequired  Boolean   @default(false) @map("password_change_required")
+  twoFactorAuthEnabled    Boolean   @default(false) @map("two_factor_auth_enabled")
+  phoneNumber             String?   @map("phone_number") @db.VarChar(20)
+  notes                   String?
+  createdBy               String?   @map("created_by") @db.Uuid
+  lastUpdatedBy           String?   @map("last_updated_by") @db.Uuid
+
+  @@map("admin")
+}
