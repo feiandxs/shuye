@@ -32,3 +32,16 @@ export async function createNewAdmin(username: string, password: string): Promis
     throw new Error('Failed to create new admin');
   }
 }
+
+export async function ifAdminEmpty(): Promise<boolean> {
+  try {
+    const admin = await AdminModel.findFirst();
+    if (admin) {
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error('Error checking if admin is empty:', error);
+    throw new Error('Failed to check if admin is empty');
+  }
+}

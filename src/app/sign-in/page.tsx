@@ -3,7 +3,6 @@ import { LoginFormComponent } from './login-form';
 
 const LoginPage = () => (
   <div>
-    login page
     <LoginFormComponent
       adminLogin={adminLogin}
     />

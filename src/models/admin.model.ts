@@ -15,7 +15,11 @@ export class AdminModel {
    * @returns 返回创建的管理员对象
    */
   static async create(data: Prisma.AdminCreateInput): Promise<Admin> {
-    return prisma.admin.create({ data });
+    try {
+      return await prisma.admin.create({ data });
+    } finally {
+      await prisma.$disconnect();
+    }
   }
 
   /**
@@ -25,7 +29,11 @@ export class AdminModel {
    * @returns 返回找到的管理员对象，如果不存在则返回 null
    */
   static async findById(id: string): Promise<Admin | null> {
-    return prisma.admin.findUnique({ where: { id } });
+    try {
+      return await prisma.admin.findUnique({ where: { id } });
+    } finally {
+      await prisma.$disconnect();
+    }
   }
 
   /**
@@ -35,7 +43,11 @@ export class AdminModel {
    * @returns 返回找到的管理员对象，如果不存在则返回 null
    */
   static async findByUsername(username: string): Promise<Admin | null> {
-    return prisma.admin.findUnique({ where: { username } });
+    try {
+      return await prisma.admin.findUnique({ where: { username } });
+    } finally {
+      await prisma.$disconnect();
+    }
   }
 
   /**
@@ -46,7 +58,11 @@ export class AdminModel {
    * @returns 返回更新后的管理员对象
    */
   static async update(id: string, data: Prisma.AdminUpdateInput): Promise<Admin> {
-    return prisma.admin.update({ where: { id }, data });
+    try {
+      return await prisma.admin.update({ where: { id }, data });
+    } finally {
+      await prisma.$disconnect();
+    }
   }
 
   /**
@@ -56,10 +72,14 @@ export class AdminModel {
    * @returns 返回更新后的管理员对象
    */
   static async deactivateAdmin(id: string): Promise<Admin> {
-    return prisma.admin.update({
-      where: { id },
-      data: { isActive: false },
-    });
+    try {
+      return await prisma.admin.update({
+        where: { id },
+        data: { isActive: false },
+      });
+    } finally {
+      await prisma.$disconnect();
+    }
   }
 
   /**
@@ -69,10 +89,14 @@ export class AdminModel {
    * @returns 返回更新后的管理员对象
    */
   static async activateAdmin(id: string): Promise<Admin> {
-    return prisma.admin.update({
-      where: { id },
-      data: { isActive: true },
-    });
+    try {
+      return await prisma.admin.update({
+        where: { id },
+        data: { isActive: true },
+      });
+    } finally {
+      await prisma.$disconnect();
+    }
   }
 
   /**
@@ -95,34 +119,53 @@ export class AdminModel {
     isActive?: boolean;
     role?: string;
   }): Promise<{ admins: Admin[]; total: number }> {
-    const {
-      page = 1,
-      pageSize = 10,
-      sortBy = 'createdAt',
-      sortOrder = 'desc',
-      isActive,
-      role,
-    } = params;
+    try {
+      const {
+        page = 1,
+        pageSize = 10,
+        sortBy = 'createdAt',
+        sortOrder = 'desc',
+        isActive,
+        role,
+      } = params;
 
-    // 计算需要跳过的记录数
-    const skip = (page - 1) * pageSize;
+      // 计算需要跳过的记录数
+      const skip = (page - 1) * pageSize;
 
-    // 构建查询条件
-    const where: Prisma.AdminWhereInput = {};
-    if (isActive !== undefined) where.isActive = isActive;
-    if (role) where.role = role;
+      // 构建查询条件
+      const where: Prisma.AdminWhereInput = {};
+      if (isActive !== undefined) where.isActive = isActive;
+      if (role) where.role = role;
 
-    // 使用事务确保数据一致性
-    const [admins, total] = await prisma.$transaction([
-      prisma.admin.findMany({
-        where,
-        skip,
-        take: pageSize,
-        orderBy: { [sortBy]: sortOrder },
-      }),
-      prisma.admin.count({ where }),
-    ]);
+      // 使用事务确保数据一致性
+      const [admins, total] = await prisma.$transaction([
+        prisma.admin.findMany({
+          where,
+          skip,
+          take: pageSize,
+          orderBy: { [sortBy]: sortOrder },
+        }),
+        prisma.admin.count({ where }),
+      ]);
 
-    return { admins, total };
+      return { admins, total };
+    } finally {
+      await prisma.$disconnect();
+    }
+  }
+
+  /**
+   * 查找第一个管理员
+   *
+   * 这个方法用于查找数据库中的第一个管理员记录。
+   *
+   * @returns 返回找到的管理员对象，如果不存在则返回 null
+   */
+  static async findFirst(): Promise<Admin | null> {
+    try {
+      return await prisma.admin.findFirst();
+    } finally {
+      await prisma.$disconnect();
+    }
   }
 }
