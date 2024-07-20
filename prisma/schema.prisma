@@ -34,3 +34,18 @@ model Admin {
 
   @@map("admin")
 }
+
+model SiteConfig {
+  id              Int      @id @default(autoincrement())
+  siteName        String   @db.VarChar(255) @map("site_name")        // 网站名称
+  siteDescription String?  @db.Text         @map("site_description") // 网站说明
+  author          String?  @db.VarChar(255) @map("author")           // 作者名称
+  siteUrl         String?  @db.VarChar(255) @map("site_url")         // 网站URL
+  contactEmail    String?  @db.VarChar(255) @map("contact_email")    // 联系邮箱
+  keywords        String?  @db.VarChar(255) @map("keywords")         // 网站关键词
+  copyrightInfo   String?  @db.VarChar(255) @map("copyright_info")   // 网站版权信息
+  defaultLanguage String?  @db.VarChar(50)  @map("default_language") // 默认语言
+  timezone        String?  @db.VarChar(50)  @map("timezone")         // 时区
+
+  @@map("site_config")
+}
