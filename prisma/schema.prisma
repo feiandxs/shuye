@@ -49,3 +49,29 @@ model SiteConfig {
 
   @@map("site_config")
 }
+
+model WechatMpAccount {
+  id                 Int       @id @default(autoincrement())
+  name               String    @db.VarChar(100)   @map("name")                // 公众号名称
+  appId              String    @unique @db.VarChar(50) @map("app_id")         // 公众号的AppID
+  appSecret          String    @db.VarChar(100)  @map("app_secret")           // 公众号的AppSecret
+  token              String?   @db.VarChar(100)  @map("token")                // 公众号的Token
+  aesKey             String?   @db.VarChar(100)  @map("aes_key")              // 消息加解密密钥
+  qrCodeUrl          String?   @db.Text          @map("qr_code_url")          // 公众号二维码URL
+  headImgUrl         String?   @db.Text          @map("head_img_url")         // 公众号头像URL
+  type               String?   @db.VarChar(20)   @map("type")                 // 公众号类型（如服务号、订阅号等）
+  createdAt          DateTime  @default(now())   @map("created_at")           // 创建时间
+  updatedAt          DateTime  @updatedAt        @map("updated_at")           // 更新时间
+  lastPushTime       DateTime? @map("last_push_time")                         // 最后一次推送时间
+  followersCount     Int       @default(0)       @map("followers_count")      // 关注者数量
+  category           String?   @db.VarChar(50)   @map("category")             // 公众号类别
+  description        String?   @db.Text          @map("description")          // 公众号描述
+  welcomeMessage     String?   @db.Text          @map("welcome_message")      // 欢迎消息
+  customMenuConfig   Json?     @map("custom_menu_config")                     // 自定义菜单配置（JSONB格式）
+  apiQuotaDaily      Int?      @map("api_quota_daily")                        // 每日API调用限额
+  apiQuotaRemaining  Int?      @map("api_quota_remaining")                    // 剩余API调用次数
+  status             String    @default("active") @db.VarChar(20) @map("status") // 公众号状态（如active、inactive等）
+  remarks            String?   @db.Text          @map("remarks")              // 备注
+
+  @@map("wechat_mp_accounts")
+}
