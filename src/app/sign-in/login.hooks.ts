@@ -1,5 +1,6 @@
 // login.hooks.ts
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface LoginResult {
   success: boolean;
@@ -17,11 +18,9 @@ export const useLogin = ({ adminLogin }: UseLoginProps) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [alertInfo, setAlertInfo] = useState<{
-    type: 'error' | 'success';
-    title: string;
-    description: string;
-  } | null>(null);
+  const [alertInfo, setAlertInfo] = useState<{ type: 'error' | 'success'; title: string; description: string; } | null>(null);
+
+  const router = useRouter();
 
   const handleLogin = async () => {
     setLoading(true);
@@ -34,7 +33,8 @@ export const useLogin = ({ adminLogin }: UseLoginProps) => {
           title: '登录成功',
           description: `欢迎回来，${result.user?.username}！`,
         });
-        // 这里可以添加重定向逻辑
+        // 添加重定向逻辑
+        router.push('/dashboard');
       } else {
         setAlertInfo({
           type: 'error',

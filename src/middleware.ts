@@ -6,11 +6,11 @@ export async function middleware(request: NextRequest) {
   // 只对 /dashboard 及其子路径进行处理
   if (request.nextUrl.pathname.startsWith('/dashboard')) {
     // 检查是否有认证 cookie
-    const authCookie = request.cookies.get('auth_token'); // 假设我们使用 'auth_token' 作为认证 cookie 的名称
+    const authCookie = request.cookies.get('token'); // 假设我们使用 'auth_token' 作为认证 cookie 的名称
 
     if (!authCookie) {
       // 如果没有认证 cookie，重定向到登录页面
-      return NextResponse.redirect(new URL('/login', request.url));
+      return NextResponse.redirect(new URL('/sign-in', request.url));
     }
 
     // 如果有认证 cookie，我们就允许请求继续
