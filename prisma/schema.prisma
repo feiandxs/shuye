@@ -75,3 +75,27 @@ model WechatMpAccount {
 
   @@map("wechat_mp_accounts")
 }
+
+model LlmProvider {
+  id           Int      @id @default(autoincrement()) @map("id")
+  name         String   @unique @map("name")
+  apiEndpoint  String   @map("api_endpoint")
+  apiKeys      String[] @map("api_keys")
+  isActive     Boolean  @default(true) @map("is_active")
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@map("llm_provider")
+}
+
+model LlmModel {
+  id         Int      @id @default(autoincrement()) @map("id")
+  name       String   @unique @map("name")
+  providerId Int      @map("provider_id")
+  maxTokens  Int      @default(2048) @map("max_tokens")
+  isActive   Boolean  @default(true) @map("is_active")
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@map("llm_model")
+}
