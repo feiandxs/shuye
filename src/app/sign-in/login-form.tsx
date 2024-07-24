@@ -16,7 +16,6 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { ExclamationTriangleIcon, CheckCircledIcon } from '@radix-ui/react-icons';
 
 import { Logo } from '@/components/common/logo';
-
 import { useLogin } from './login.hooks';
 
 interface LoginFormProps {
