@@ -3,62 +3,8 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 
-type MenuItem = {
-  id: string;
-  label: string;
-  icon?: string;
-  href?: string;
-  children?: MenuItem[];
-};
-
-const menuItems: MenuItem[] = [
-  {
-    id: 'dashboard',
-    label: 'Dashboard',
-    icon: 'dashboard',
-    href: '/dashboard',
-  },
-  {
-    id: 'llm',
-    label: 'LLM Management',
-    icon: 'ai',
-    children: [
-      {
-        id: 'providers',
-        label: 'Providers',
-        href: '/llm/providers',
-      },
-      {
-        id: 'models',
-        label: 'Models',
-        href: '/llm/models',
-      },
-    ],
-  },
-  {
-    id: 'users',
-    label: 'User Management',
-    icon: 'users',
-    href: '/users',
-  },
-  {
-    id: 'settings',
-    label: 'Settings',
-    icon: 'settings',
-    children: [
-      {
-        id: 'general',
-        label: 'General Settings',
-        href: '/settings/general',
-      },
-      {
-        id: 'security',
-        label: 'Security Settings',
-        href: '/settings/security',
-      },
-    ],
-  },
-];
+import type { MenuItem } from '@/app/dashboard/sidebar/types';
+import { menuItems } from '@/app/dashboard/sidebar/menu-data';
 
 const MenuItemComponent: React.FC<{ item: MenuItem; depth: number }> = ({ item, depth }) => {
   const [isOpen, setIsOpen] = useState(false);
