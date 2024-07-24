@@ -1,5 +1,6 @@
 import { Logo } from '@/components/common/logo';
 import { SLoganComponent } from '@/app/(main)/components/slogan';
+import { LoginContainer } from '@/app/(main)/components/login-container';
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
       <div className='mt-24'><Logo size='extra-large' />
       </div>
       <SLoganComponent />
+      <LoginContainer />
     </main>
   );
 }
