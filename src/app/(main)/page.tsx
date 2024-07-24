@@ -8,7 +8,8 @@ export default function Home() {
       id='home-page'
       className='flex flex-col justify-start items-center min-h-screen'
     >
-      <div className='mt-24'><Logo size='extra-large' />
+      <div className='mt-24'>
+        <Logo size='small' />
       </div>
       <SLoganComponent />
       <LoginContainer />
